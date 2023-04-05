@@ -1,0 +1,8 @@
+INSERT INTO books (isbn, author_name, title, description, release_date)
+VALUES ('978-972-1-04102-8', 'J. R. R. Tolkien', 'The Lord of the Rings: The Fellowship of the Ring', 'The dark, fearsome Ringwraiths are searching for a Hobbit. Frodo Baggins knows that they are seeking him and the Ring he bears--the Ring of Power that will enable evil Sauron to destroy all that is good in Middle-earth. Now it is up to Frodo and his faithful servant, Sam, with a small band of companions, to carry the Ring to the one place it can be destroyed: Mount Doom, in the very center of Saurons realm.', '1954-06-29');
+
+INSERT INTO books (isbn, author_name, title, description, release_date)
+VALUES ('978-972-1-04144-8', 'J. R. R. Tolkien', 'The Lord of the Rings: The Two Towers', 'The Fellowship is scattered. Some brace hopelessly for war against the ancient evil of Sauron. Others must contend with the treachery of the wizard Saruman. Only Frodo and Sam are left to take the One Ring, ruler of the accursed Rings of Power, to be destroyed in Mordor, the dark realm where Sauron is supreme. Their guide is Gollum, deceitful and obsessive slave to the corruption of the Ring.', '1954-11-11');
+
+INSERT INTO books (isbn, author_name, title, description, release_date)
+VALUES ('85-336-0315-0', 'J. R. R. Tolkien', 'The Lord of the Rings: The Return of the King', 'While the evil might of the Dark Lord Sauron swarms out to conquer all Middle-earth, Frodo and Sam struggle deep into Mordor, seat of Saurons power. To defeat the Dark Lord, the One Ring, ruler of the accursed Rings of Power, must be destroyed in the fires of Mount Doom. But the way is impossibly hard, and Frodo is weakening. Weighed down by the compulsion of the Ring, he begins finally to despair.', '1955-10-20');
