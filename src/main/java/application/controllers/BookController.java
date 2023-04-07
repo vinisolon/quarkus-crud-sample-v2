@@ -46,7 +46,14 @@ public class BookController {
     @POST
     @Transactional
     public Response createBook(@Valid BookRequest request) {
-        BookResponse bookResponse = bookMapper.toResponse(bookService.saveBook(request));
+        BookResponse bookResponse = bookMapper.toResponse(bookService.createBook(request));
         return Response.status(Response.Status.CREATED).entity(bookResponse).build();
+    }
+
+    @PUT
+    @Transactional
+    public Response updateBook(@Valid BookRequest request) {
+        BookResponse bookResponse = bookMapper.toResponse(bookService.updateBook(request));
+        return Response.status(Response.Status.OK).entity(bookResponse).build();
     }
 }

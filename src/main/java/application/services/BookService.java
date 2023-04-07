@@ -30,12 +30,20 @@ public class BookService {
                 .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.BOOK_NOT_FOUND));
     }
 
-    public Book saveBook(BookRequest request) {
+    public Book createBook(BookRequest request) {
         if (bookRepository.existsBookByIsbn(request.getIsbn())) {
             throw new DataIntegrityViolationException(ExceptionMessages.BOOK_ALREADY_REGISTERED);
         }
 
         Book book = bookMapper.toEntity(request);
+        bookRepository.persist(book);
+        return book;
+    }
+
+    public Book updateBook(BookRequest request) {
+        Book book = bookRepository.findBookByIsbn(request.getIsbn())
+                .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.BOOK_NOT_FOUND));
+        bookMapper.update(book, request);
         bookRepository.persist(book);
         return book;
     }
