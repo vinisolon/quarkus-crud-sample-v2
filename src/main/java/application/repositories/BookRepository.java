@@ -7,4 +7,8 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class BookRepository implements PanacheRepository<Book> {
+
+    public boolean existsBookByIsbn(String isbn) {
+        return this.find("isbn = ?1", isbn).count() > 0;
+    }
 }

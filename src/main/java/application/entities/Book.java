@@ -1,6 +1,5 @@
 package application.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,6 +30,5 @@ public class Book {
     private String description;
 
     @Column(name = "release_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate releaseDate;
 }

@@ -1,6 +1,7 @@
 package application.mappers;
 
 import application.entities.Book;
+import application.requests.BookRequest;
 import application.responses.BookResponse;
 import org.mapstruct.Mapper;
 
@@ -8,4 +9,6 @@ import org.mapstruct.Mapper;
 public interface BookMapper {
 
     BookResponse toResponse(Book book);
+
+    Book toEntity(BookRequest request);
 }

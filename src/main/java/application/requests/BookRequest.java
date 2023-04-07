@@ -1,11 +1,11 @@
 package application.requests;
 
 import application.constants.ValidationMessages;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
@@ -26,7 +26,6 @@ public class BookRequest {
     @Size(max = 1000, message = ValidationMessages.DESCRIPTION_STRING_LIMIT)
     private String description;
 
-    @NotBlank(message = ValidationMessages.RELEASE_DATE_REQUIRED)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @NotNull(message = ValidationMessages.RELEASE_DATE_REQUIRED)
     private LocalDate releaseDate;
 }
