@@ -1,6 +1,8 @@
 package application.services;
 
+import application.constants.ExceptionMessages;
 import application.entities.Book;
+import application.exceptions.EntityNotFoundException;
 import application.repositories.BookRepository;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,5 +17,10 @@ public class BookService {
 
     public List<Book> getAllBooks() {
         return bookRepository.listAll();
+    }
+
+    public Book getBookById(Long id) {
+        return bookRepository.findByIdOptional(id)
+                .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.BOOK_NOT_FOUND));
     }
 }

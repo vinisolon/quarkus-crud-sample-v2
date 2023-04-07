@@ -6,10 +6,7 @@ import application.services.BookService;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -33,6 +30,13 @@ public class BookController {
                 .stream()
                 .map(book -> bookMapper.toResponse(book))
                 .collect(Collectors.toList());
-        return Response.ok().entity(bookResponseList).build();
+        return Response.status(Response.Status.OK).entity(bookResponseList).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Response getBookById(@PathParam("id") Long id) {
+        BookResponse bookResponse = bookMapper.toResponse(bookService.getBookById(id));
+        return Response.status(Response.Status.OK).entity(bookResponse).build();
     }
 }
