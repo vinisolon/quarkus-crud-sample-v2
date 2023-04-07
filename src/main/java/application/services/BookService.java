@@ -47,4 +47,9 @@ public class BookService {
         bookRepository.persist(book);
         return book;
     }
+
+    public void deleteBookById(Long id) {
+        getBookById(id);
+        bookRepository.deleteById(id);
+    }
 }

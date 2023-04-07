@@ -56,4 +56,12 @@ public class BookController {
         BookResponse bookResponse = bookMapper.toResponse(bookService.updateBook(request));
         return Response.status(Response.Status.OK).entity(bookResponse).build();
     }
+
+    @DELETE
+    @Transactional
+    @Path("/{id}")
+    public Response deleteBookById(@PathParam("id") Long id) {
+        bookService.deleteBookById(id);
+        return Response.noContent().build();
+    }
 }
