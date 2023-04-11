@@ -1,9 +1,11 @@
 package application.exceptions.mappers;
 
 import application.exceptions.DataIntegrityViolationException;
-import application.responses.ErrorMessageResponse;
+import application.responses.ErrorResponse;
 
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 import java.time.LocalDateTime;
@@ -11,10 +13,14 @@ import java.time.LocalDateTime;
 @Provider
 public class DataIntegrityViolationExceptionMapper implements ExceptionMapper<DataIntegrityViolationException> {
 
+    @Context
+    UriInfo uriInfo;
+
     @Override
     public Response toResponse(DataIntegrityViolationException e) {
-        ErrorMessageResponse response = ErrorMessageResponse.builder()
+        ErrorResponse response = ErrorResponse.builder()
                 .status(Response.Status.CONFLICT.getStatusCode())
+                .path(uriInfo.getRequestUri().getPath())
                 .message(e.getMessage())
                 .date(LocalDateTime.now())
                 .build();
