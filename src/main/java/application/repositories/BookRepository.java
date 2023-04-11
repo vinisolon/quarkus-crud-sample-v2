@@ -10,10 +10,10 @@ import java.util.Optional;
 public class BookRepository implements PanacheRepository<Book> {
 
     public boolean existsBookByIsbn(String isbn) {
-        return this.find("isbn = ?1", isbn).count() > 0;
+        return this.find("isbn", isbn).count() > 0;
     }
 
     public Optional<Book> findBookByIsbn(String isbn) {
-        return this.find("isbn = ?1", isbn).stream().findFirst();
+        return this.find("isbn", isbn).stream().findFirst();
     }
 }
