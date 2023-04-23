@@ -13,6 +13,6 @@ public class TestController {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String test() {
-        return "It's not working!";
+        return "It's working!";
     }
 }
