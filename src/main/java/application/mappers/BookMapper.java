@@ -9,9 +9,10 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = "cdi")
 public interface BookMapper {
 
-    BookResponse toResponse(Book book);
+    BookResponse toBookResponse(Book book);
 
     Book toEntity(BookRequest request);
 
-    void update(@MappingTarget Book book, BookRequest request);
+    void updateEntity(@MappingTarget Book book, BookRequest request);
+
 }

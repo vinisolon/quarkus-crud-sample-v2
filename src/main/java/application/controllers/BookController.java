@@ -31,7 +31,7 @@ public class BookController {
     public Response getAllBooks() {
         List<BookResponse> bookResponseList = bookService.getAllBooks()
                 .stream()
-                .map(book -> bookMapper.toResponse(book))
+                .map(book -> bookMapper.toBookResponse(book))
                 .collect(Collectors.toList());
         return Response.status(Response.Status.OK).entity(bookResponseList).build();
     }
@@ -39,21 +39,21 @@ public class BookController {
     @GET
     @Path("/{id}")
     public Response getBookById(@PathParam("id") Long id) {
-        BookResponse bookResponse = bookMapper.toResponse(bookService.getBookById(id));
+        BookResponse bookResponse = bookMapper.toBookResponse(bookService.getBookById(id));
         return Response.status(Response.Status.OK).entity(bookResponse).build();
     }
 
     @POST
     @Transactional
     public Response createBook(@Valid BookRequest request) {
-        BookResponse bookResponse = bookMapper.toResponse(bookService.createBook(request));
+        BookResponse bookResponse = bookMapper.toBookResponse(bookService.createBook(request));
         return Response.status(Response.Status.CREATED).entity(bookResponse).build();
     }
 
     @PUT
     @Transactional
     public Response updateBook(@Valid BookRequest request) {
-        BookResponse bookResponse = bookMapper.toResponse(bookService.updateBook(request));
+        BookResponse bookResponse = bookMapper.toBookResponse(bookService.updateBook(request));
         return Response.status(Response.Status.OK).entity(bookResponse).build();
     }
 

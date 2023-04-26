@@ -12,4 +12,5 @@ public class ValidationMessages {
     public static final String DESCRIPTION_REQUIRED = "Description is required";
     public static final String DESCRIPTION_STRING_LIMIT = "Description higher than limit (1000)";
     public static final String RELEASE_DATE_REQUIRED = "Rlease date is required";
+
 }

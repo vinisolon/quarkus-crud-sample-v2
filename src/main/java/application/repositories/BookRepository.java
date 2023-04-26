@@ -9,11 +9,13 @@ import java.util.Optional;
 @ApplicationScoped
 public class BookRepository implements PanacheRepository<Book> {
 
+    private static final String ISBN = "isbn";
+
     public boolean existsBookByIsbn(String isbn) {
-        return this.find("isbn", isbn).count() > 0;
+        return count(ISBN, isbn) > 0;
     }
 
     public Optional<Book> findBookByIsbn(String isbn) {
-        return this.find("isbn", isbn).stream().findFirst();
+        return find(ISBN, isbn).stream().findFirst();
     }
 }

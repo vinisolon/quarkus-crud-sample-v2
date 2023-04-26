@@ -43,7 +43,7 @@ public class BookService {
     public Book updateBook(BookRequest request) {
         Book book = bookRepository.findBookByIsbn(request.getIsbn())
                 .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.BOOK_NOT_FOUND));
-        bookMapper.update(book, request);
+        bookMapper.updateEntity(book, request);
         bookRepository.persist(book);
         return book;
     }

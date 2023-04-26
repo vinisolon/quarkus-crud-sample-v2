@@ -28,4 +28,5 @@ public class BookRequest {
 
     @NotNull(message = ValidationMessages.RELEASE_DATE_REQUIRED)
     private LocalDate releaseDate;
+
 }
