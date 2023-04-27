@@ -1,4 +1,4 @@
-package application.responses;
+package application.exceptions.resources;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-public class ErrorResponse {
+public class ExceptionResponse {
 
     private int status;
     private String path;
