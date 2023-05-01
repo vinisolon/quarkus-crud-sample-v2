@@ -40,7 +40,7 @@ class BookServiceTest {
     private BookMapper bookMapper;
 
     @Inject
-    private BookService bookService;
+    BookService bookService;
 
     private static final Long LONG_1 = 1L;
     private static final String ISBN = "1284";
