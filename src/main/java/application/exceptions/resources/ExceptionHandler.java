@@ -12,6 +12,7 @@ import javax.ws.rs.core.UriInfo;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class ExceptionHandler {
 
@@ -64,8 +65,8 @@ public class ExceptionHandler {
     }
 
     private String getViolationsMessages(List<ConstraintViolation<?>> violations) {
-        StringBuilder violationsMessage = new StringBuilder();
-        violations.forEach(v -> violationsMessage.append(", ").append(v.getMessage()));
-        return violationsMessage.substring(2);
+        StringJoiner messages = new StringJoiner(", ");
+        violations.forEach(v -> messages.add(v.getMessage()));
+        return messages.toString();
     }
 }
