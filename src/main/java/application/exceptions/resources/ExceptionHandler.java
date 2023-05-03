@@ -23,7 +23,7 @@ public class ExceptionHandler {
     public Response exceptionMapper(Exception e) {
         ExceptionResponse response = ExceptionResponse.builder()
                 .status(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode())
-                .path(uriInfo.getRequestUri().getPath())
+                .path(uriInfo.getPath())
                 .message(e.getMessage())
                 .date(LocalDateTime.now())
                 .build();
@@ -35,7 +35,7 @@ public class ExceptionHandler {
         List<ConstraintViolation<?>> violations = new ArrayList<>(e.getConstraintViolations());
         ExceptionResponse response = ExceptionResponse.builder()
                 .status(Response.Status.BAD_REQUEST.getStatusCode())
-                .path(uriInfo.getRequestUri().getPath())
+                .path(uriInfo.getPath())
                 .message(getViolationsMessages(violations))
                 .date(LocalDateTime.now())
                 .build();
@@ -46,7 +46,7 @@ public class ExceptionHandler {
     public Response entityNotFoundExceptionMapper(EntityNotFoundException e) {
         ExceptionResponse response = ExceptionResponse.builder()
                 .status(Response.Status.NOT_FOUND.getStatusCode())
-                .path(uriInfo.getRequestUri().getPath())
+                .path(uriInfo.getPath())
                 .message(e.getMessage())
                 .date(LocalDateTime.now())
                 .build();
@@ -57,7 +57,7 @@ public class ExceptionHandler {
     public Response dataIntegrityViolationExceptionMapper(DataIntegrityViolationException e) {
         ExceptionResponse response = ExceptionResponse.builder()
                 .status(Response.Status.CONFLICT.getStatusCode())
-                .path(uriInfo.getRequestUri().getPath())
+                .path(uriInfo.getPath())
                 .message(e.getMessage())
                 .date(LocalDateTime.now())
                 .build();
