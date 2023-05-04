@@ -5,8 +5,9 @@ import application.entities.Book;
 import application.exceptions.DataIntegrityViolationException;
 import application.exceptions.EntityNotFoundException;
 import application.mappers.BookMapper;
-import application.repositories.BookRepository;
+import application.repositories.impl.BookRepositoryImpl;
 import application.requests.BookRequest;
+import application.services.impl.BookServiceImpl;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,16 +32,16 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @QuarkusTest
-class BookServiceTest {
+class BookServiceImplTest {
 
     @InjectMock
-    private BookRepository bookRepository;
+    private BookRepositoryImpl bookRepositoryImpl;
 
     @InjectMock
     private BookMapper bookMapper;
 
     @Inject
-    BookService bookService;
+    BookServiceImpl bookServiceImpl;
 
     private static final Long LONG_1 = 1L;
     private static final String ISBN = "1284";
@@ -77,10 +78,10 @@ class BookServiceTest {
 
     @Test
     void getAllBooks_SUCCESS() {
-        when(bookRepository.listAll())
+        when(bookRepositoryImpl.listAll())
                 .thenReturn(bookList);
 
-        List<Book> result = bookService.getAllBooks();
+        List<Book> result = bookServiceImpl.getAllBooks();
 
         assertFalse(result.isEmpty());
         assertNotNull(result.get(0));
@@ -88,10 +89,10 @@ class BookServiceTest {
 
     @Test
     void getBookById_SUCCESS() {
-        when(bookRepository.findByIdOptional(anyLong()))
+        when(bookRepositoryImpl.findByIdOptional(anyLong()))
                 .thenReturn(Optional.of(book));
 
-        Book result = bookService.getBookById(LONG_1);
+        Book result = bookServiceImpl.getBookById(LONG_1);
 
         assertNotNull(result);
         assertEquals(LONG_1, result.getId());
@@ -104,12 +105,12 @@ class BookServiceTest {
 
     @Test
     void getBookById_EXCEPTION() {
-        when(bookRepository.findByIdOptional(anyLong()))
+        when(bookRepositoryImpl.findByIdOptional(anyLong()))
                 .thenReturn(Optional.empty())
                 .thenThrow(EntityNotFoundException.class);
 
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
-                () -> bookService.getBookById(LONG_1));
+                () -> bookServiceImpl.getBookById(LONG_1));
 
         assertEquals(EntityNotFoundException.class, exception.getClass());
         assertEquals(ExceptionMessages.BOOK_NOT_FOUND, exception.getMessage());
@@ -117,15 +118,15 @@ class BookServiceTest {
 
     @Test
     void createBook_SUCCESS() {
-        when(bookRepository.existsBookByIsbn(anyString()))
+        when(bookRepositoryImpl.existsBookByIsbn(anyString()))
                 .thenReturn(Boolean.FALSE);
 
         when(bookMapper.toEntity(any()))
                 .thenReturn(book);
 
-        doNothing().when(bookRepository).persist(book);
+        doNothing().when(bookRepositoryImpl).persist(book);
 
-        Book result = bookService.createBook(bookRequest);
+        Book result = bookServiceImpl.createBook(bookRequest);
 
         assertNotNull(result);
         assertEquals(LONG_1, result.getId());
@@ -138,12 +139,12 @@ class BookServiceTest {
 
     @Test
     void createBook_EXCEPTION() {
-        when(bookRepository.existsBookByIsbn(anyString()))
+        when(bookRepositoryImpl.existsBookByIsbn(anyString()))
                 .thenReturn(Boolean.TRUE)
                 .thenThrow(DataIntegrityViolationException.class);
 
         DataIntegrityViolationException exception = assertThrows(DataIntegrityViolationException.class,
-                () -> bookService.createBook(bookRequest));
+                () -> bookServiceImpl.createBook(bookRequest));
 
         assertEquals(DataIntegrityViolationException.class, exception.getClass());
         assertEquals(ExceptionMessages.BOOK_ALREADY_REGISTERED, exception.getMessage());
@@ -151,14 +152,14 @@ class BookServiceTest {
 
     @Test
     void updateBook_SUCCESS() {
-        when(bookRepository.findBookByIsbn(anyString()))
+        when(bookRepositoryImpl.findBookByIsbn(anyString()))
                 .thenReturn(Optional.of(book));
 
         doNothing().when(bookMapper).updateEntity(book, bookRequest);
 
-        doNothing().when(bookRepository).persist(book);
+        doNothing().when(bookRepositoryImpl).persist(book);
 
-        Book result = bookService.updateBook(bookRequest);
+        Book result = bookServiceImpl.updateBook(bookRequest);
 
         assertNotNull(result);
         assertEquals(LONG_1, result.getId());
@@ -171,12 +172,12 @@ class BookServiceTest {
 
     @Test
     void updateBook_EXCEPTION() {
-        when(bookRepository.findBookByIsbn(anyString()))
+        when(bookRepositoryImpl.findBookByIsbn(anyString()))
                 .thenReturn(Optional.empty())
                 .thenThrow(EntityNotFoundException.class);
 
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
-                () -> bookService.updateBook(bookRequest));
+                () -> bookServiceImpl.updateBook(bookRequest));
 
         assertEquals(EntityNotFoundException.class, exception.getClass());
         assertEquals(ExceptionMessages.BOOK_NOT_FOUND, exception.getMessage());
@@ -184,21 +185,21 @@ class BookServiceTest {
 
     @Test
     void deleteBookById_SUCCESS_TRUE() {
-        when(bookRepository.deleteById(anyLong()))
+        when(bookRepositoryImpl.deleteById(anyLong()))
                 .thenReturn(Boolean.TRUE);
 
-        bookService.deleteBookById(LONG_1);
+        bookServiceImpl.deleteBookById(LONG_1);
 
-        verify(bookRepository, times(1)).deleteById(LONG_1);
+        verify(bookRepositoryImpl, times(1)).deleteById(LONG_1);
     }
 
     @Test
     void deleteBookById_SUCCESS_FALSE() {
-        when(bookRepository.deleteById(anyLong()))
+        when(bookRepositoryImpl.deleteById(anyLong()))
                 .thenReturn(Boolean.FALSE);
 
-        bookService.deleteBookById(LONG_1);
+        bookServiceImpl.deleteBookById(LONG_1);
 
-        verify(bookRepository, times(1)).deleteById(LONG_1);
+        verify(bookRepositoryImpl, times(1)).deleteById(LONG_1);
     }
 }

@@ -6,7 +6,7 @@ import application.exceptions.EntityNotFoundException;
 import application.mappers.BookMapper;
 import application.requests.BookRequest;
 import application.responses.BookResponse;
-import application.services.BookService;
+import application.services.impl.BookServiceImpl;
 import io.quarkus.test.junit.QuarkusTest;
 import io.quarkus.test.junit.mockito.InjectMock;
 import io.restassured.http.ContentType;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 class BookControllerTest {
 
     @InjectMock
-    private BookService bookService;
+    private BookServiceImpl bookServiceImpl;
 
     @InjectMock
     private BookMapper bookMapper;
@@ -80,7 +80,7 @@ class BookControllerTest {
 
     @Test
     void getAllBooks_SUCCESS() {
-        when(bookService.getAllBooks())
+        when(bookServiceImpl.getAllBooks())
                 .thenReturn(bookList);
 
         when(bookMapper.toBookResponse(any()))
@@ -96,7 +96,7 @@ class BookControllerTest {
 
     @Test
     void getBookById_SUCCESS() {
-        when(bookService.getBookById(any()))
+        when(bookServiceImpl.getBookById(any()))
                 .thenReturn(book);
 
         when(bookMapper.toBookResponse(any()))
@@ -112,7 +112,7 @@ class BookControllerTest {
 
     @Test
     void getBookById_EXCEPTION() {
-        when(bookService.getBookById(any()))
+        when(bookServiceImpl.getBookById(any()))
                 .thenThrow(EntityNotFoundException.class);
 
         given()
@@ -125,7 +125,7 @@ class BookControllerTest {
 
     @Test
     void createBook_SUCCESS() {
-        when(bookService.createBook(any()))
+        when(bookServiceImpl.createBook(any()))
                 .thenReturn(book);
 
         when(bookMapper.toBookResponse(any()))
@@ -142,7 +142,7 @@ class BookControllerTest {
 
     @Test
     void createBook_EXCEPTION() {
-        when(bookService.createBook(any()))
+        when(bookServiceImpl.createBook(any()))
                 .thenThrow(DataIntegrityViolationException.class);
 
         given()
@@ -156,7 +156,7 @@ class BookControllerTest {
 
     @Test
     void updateBook_SUCCESS() {
-        when(bookService.updateBook(any()))
+        when(bookServiceImpl.updateBook(any()))
                 .thenReturn(book);
 
         when(bookMapper.toBookResponse(any()))
@@ -173,7 +173,7 @@ class BookControllerTest {
 
     @Test
     void updateBook_EXCEPTION() {
-        when(bookService.updateBook(any()))
+        when(bookServiceImpl.updateBook(any()))
                 .thenThrow(EntityNotFoundException.class);
 
         given()
@@ -187,7 +187,7 @@ class BookControllerTest {
 
     @Test
     void deleteBookById_SUCCESS() {
-        doNothing().when(bookService).deleteBookById(any());
+        doNothing().when(bookServiceImpl).deleteBookById(any());
 
         given()
                 .contentType(ContentType.JSON)

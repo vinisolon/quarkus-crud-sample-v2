@@ -1,54 +1,20 @@
 package application.services;
 
-import application.constants.ExceptionMessages;
 import application.entities.Book;
-import application.exceptions.DataIntegrityViolationException;
-import application.exceptions.EntityNotFoundException;
-import application.mappers.BookMapper;
-import application.repositories.BookRepository;
 import application.requests.BookRequest;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.util.List;
 
-@ApplicationScoped
-public class BookService {
+public interface BookService {
 
-    @Inject
-    BookRepository bookRepository;
+    List<Book> getAllBooks();
 
-    @Inject
-    BookMapper bookMapper;
+    Book getBookById(Long id);
 
-    public List<Book> getAllBooks() {
-        return bookRepository.listAll();
-    }
+    Book createBook(BookRequest request);
 
-    public Book getBookById(Long id) {
-        return bookRepository.findByIdOptional(id)
-                .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.BOOK_NOT_FOUND));
-    }
+    Book updateBook(BookRequest request);
 
-    public Book createBook(BookRequest request) {
-        if (bookRepository.existsBookByIsbn(request.getIsbn())) {
-            throw new DataIntegrityViolationException(ExceptionMessages.BOOK_ALREADY_REGISTERED);
-        }
+    void deleteBookById(Long id);
 
-        Book book = bookMapper.toEntity(request);
-        bookRepository.persist(book);
-        return book;
-    }
-
-    public Book updateBook(BookRequest request) {
-        Book book = bookRepository.findBookByIsbn(request.getIsbn())
-                .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.BOOK_NOT_FOUND));
-        bookMapper.updateEntity(book, request);
-        bookRepository.persist(book);
-        return book;
-    }
-
-    public void deleteBookById(Long id) {
-        bookRepository.deleteById(id);
-    }
 }
